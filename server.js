@@ -15,6 +15,10 @@ const debug = require('debug')('dedebe');
 const express = require("express");
 //handle CORS
 const cors = require("cors");
+//enable HTTPS protocol
+const https = require('https');
+//access filesystem
+const fs = require('fs');
 //access Mongoose data base
 const mongoose = require('./dede-mongo/connect')
 //access data model for Mongoose
@@ -33,7 +37,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //compress routes
 app.use(compression());
+
 app.use(helmet());
+
 app.use(cors({
     origin: function(origin, callback){
         // allow requests with no origin
@@ -53,9 +59,19 @@ app.use(cors({
 const PORT=parseInt(process.env.PORT, 10)||55555;
 debug('PORT: '+PORT)
 
-//start web server
-app.listen(PORT);
-debug('listening on port '+PORT);
+// pass 'app' to 'https' server
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT);
+}else{
+    const PHRASE=process.env.PHRASE||'phrase';
+    debug('PHRASE: '+PHRASE)
+    https.createServer({
+        key: fs.readFileSync('./p'),
+        cert: fs.readFileSync('./f'),
+        passphrase: PHRASE
+    }, app)
+    .listen(PORT, ()=>debug('listening on port '+PORT));
+}
 
 const db = mongoose.connection
 db.once('open', _ => {
