@@ -21,7 +21,7 @@ git clone https://github.com/dancesWithCycles/dede-mongo.git
 ## Development setup
 Run the following command in your favorite GNU/Linux shell if you fancy log messages for debugging.
 ```
-export DEBUG=$DEBUG,dedebe,mongoose
+export DEBUG=$DEBUG,dede-obc
 ```
 Run the following command in your favorite GNU/Linux shell to start the service in development mode.
 ```
