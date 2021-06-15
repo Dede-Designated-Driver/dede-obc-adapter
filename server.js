@@ -10,7 +10,7 @@ const helmet = require('helmet');
 //compress all routes
 const compression = require('compression');
 //enable debug log output
-const debug = require('debug')('dedebe');
+const debug = require('debug')('dede-obc-adapter');
 //create back end web application framework
 const express = require("express");
 //handle CORS
@@ -63,13 +63,17 @@ debug('PORT: '+PORT)
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT);
 }else{
-    const PHRASE=process.env.PHRASE||'phrase';
+    let PHRASE=process.env.PHRASE||'phrase';
     debug('PHRASE: '+PHRASE)
-    https.createServer({
-        key: fs.readFileSync('./p'),
-        cert: fs.readFileSync('./f'),
-        passphrase: PHRASE
-    }, app)
+
+    let ssl = {
+	key: fs.readFileSync('./p'),
+	cert: fs.readFileSync('./f'),
+	ca: fs.readFileSync('./c'),
+	passphrase: PHRASE
+    }
+
+    https.createServer(ssl, app)
     .listen(PORT, ()=>debug('listening on port '+PORT));
 }
 
