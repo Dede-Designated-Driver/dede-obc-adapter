@@ -107,6 +107,16 @@ echo ""
 echo "copy source: ${source} to target: ${target}/p"
 cp "${source}" "${target}/p"
 echo ""
+echo "change own"
+chown stefan /var/www/dede-obc-adapter/p
+if [ $? -eq 0 ]
+then
+  echo "Own changed."
+else
+  echo "Failure: Own did not change."
+  exit 6
+fi
+echo ""
 echo "I give you the prompt back."
 echo ""
 exit 0
