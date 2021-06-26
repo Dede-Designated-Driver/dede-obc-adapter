@@ -22,7 +22,7 @@ const fs = require('fs');
 //access Mongoose data base
 const mongoose = require('./dede-mongo/connect')
 //access data model for Mongoose
-const Location=require('./dede-mongo/models/vehicle.js')
+const Location=require('./dede-mongo/models/on-board-computer.js')
 
 // restrict origin list
 let whitelist = [
